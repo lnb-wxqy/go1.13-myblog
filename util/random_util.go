@@ -14,5 +14,5 @@ func RandomString(n int) string {
 		result[i] = letters[rand.Intn(len(letters))]
 	}
 
-	return string(result)
+	return BytesString(result)
 }
