@@ -1,0 +1,12 @@
+server:
+  port: 8082
+datasource:
+  driverName: mysql
+  host: 39.106.0.106
+  port: 3306
+  database: myblog
+  userName: root
+  password: Umissi@213
+  charset: utf8
+  #loc: Asia/Shanghai
+  loc: loc=Local
