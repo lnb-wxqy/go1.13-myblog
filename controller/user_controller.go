@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
@@ -18,9 +19,16 @@ func Register(c *gin.Context) {
 	db := database.InitDB()
 	defer db.Close()
 	//获取参数
-	name := c.PostForm("name")
-	password := c.PostForm("password")
-	telephone := c.PostForm("telephone")
+	//使用map获取参数
+	//var m = make(map[string]string, 0)
+	//json.NewDecoder(c.Request.Body).Decode(&m)
+
+	var user = &model.User{}
+	json.NewDecoder(c.Request.Body).Decode(user)
+
+	name := user.Name
+	password := user.Password
+	telephone := user.Telephone
 
 	//数据验证
 	//用户名
@@ -66,9 +74,18 @@ func Register(c *gin.Context) {
 		response.FailedResponse(c, http.StatusInternalServerError, common.REGISTER_FAILED, "注册失败，"+ret.Error.Error())
 		return
 	}
-
+	//发放token
+	token, err := common.ReleaseToken(newUser)
+	if err != nil {
+		response.Response(c, http.StatusInternalServerError, common.STATUS_INTERNAL_SERVER_ERROR, common.StatusText[common.STATUS_INTERNAL_SERVER_ERROR])
+		return
+	}
 	//注册成功
-	response.SuccessResponse(c, "注册成功")
+	c.JSON(http.StatusOK, gin.H{
+		"code":  "200",
+		"token": token,
+		"msg":   "注册成功",
+	})
 
 }
 

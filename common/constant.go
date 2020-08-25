@@ -24,14 +24,14 @@ const (
 )
 
 var StatusText = map[string]string{
-	USER_IS_NOT_EXIST:            "user is not exist",
-	USER_IS_EXIST:                "user is already exist",
-	USERNAME_IS_NULL:             "username is null",
-	PASSWORD_IS_NOT_CORRECT:      "password is not correct",
-	PASSWORD_LENGTH_LESS_SIX:     "password length is less 6",
-	TELEPHONE_FORMAT_ERROR:       "telephone format error",
-	GENERATE_FROM_PASSWORD:       "generate from password",
-	TOKEN_IS_INVALID:             "token is invalid",
-	STATUS_INTERNAL_SERVER_ERROR: "internal server Error",
-	AUTHORIZATION_ERROR:          "Authorization error",
+	USER_IS_NOT_EXIST:            "用户不存在",
+	USER_IS_EXIST:                "用户已存在",
+	USERNAME_IS_NULL:             "用户名不能为空",
+	PASSWORD_IS_NOT_CORRECT:      "密码错误",
+	PASSWORD_LENGTH_LESS_SIX:     "密码长度不能少于6位",
+	TELEPHONE_FORMAT_ERROR:       "手机号格式不正确",
+	GENERATE_FROM_PASSWORD:       "密码加密错误",
+	TOKEN_IS_INVALID:             "token无效",
+	STATUS_INTERNAL_SERVER_ERROR: "系统错误",
+	AUTHORIZATION_ERROR:          "Authorization 错误",
 }

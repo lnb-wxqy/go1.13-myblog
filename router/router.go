@@ -11,10 +11,12 @@ import (
 
 func StartProxy() {
 	r := gin.Default()
+	//
+	r.Use(middleware.CORSMiddleware())
 	group := r.Group(common.GROUP)
 	group.Handle(http.MethodPost, common.REGISTER, controller.Register)
 	group.Handle(http.MethodPost, common.LOGIN, controller.Login)
-	group.Handle(http.MethodPost, common.INFO, middleware.AuthMiddleWare(), controller.Info)
+	group.Handle(http.MethodGet, common.INFO, middleware.AuthMiddleWare(), controller.Info)
 
 	port := viper.GetString("server.port")
 	if port != "" {
