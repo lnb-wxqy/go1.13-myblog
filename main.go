@@ -13,7 +13,6 @@ func main() {
 	//初始化配置
 	InitConfig()
 
-
 	go router.StartProxy()
 
 	//监听主程序是否结束
