@@ -29,7 +29,7 @@ func AuthMiddleWare() gin.HandlerFunc {
 		token, claims, err := common.ParseToken(tokenString)
 		if err != nil || !token.Valid {
 			if validationError, ok := err.(*jwt.ValidationError); ok {
-				response.Response(ctx, http.StatusUnauthorized, common.TOKEN_IS_INVALID, validationError.Inner.Error())
+				response.Response(ctx, http.StatusUnauthorized, common.TOKEN_IS_INVALID, validationError)
 			} else {
 				response.Response(ctx, http.StatusInternalServerError, common.STATUS_INTERNAL_SERVER_ERROR, common.StatusText[common.STATUS_INTERNAL_SERVER_ERROR])
 			}
