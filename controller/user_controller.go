@@ -92,30 +92,32 @@ func Register(c *gin.Context) {
 // 登录
 func Login(c *gin.Context) {
 
-	//获取参数
-	name := c.PostForm("name")
-	password := c.PostForm("password")
+	////获取参数
+	var user = &model.User{}
+	json.NewDecoder(c.Request.Body).Decode(user)
+	name := user.Name
+	password := user.Password
 	//telephone := c.PostForm("telephone")
 
 	db := database.InitDB()
 	defer db.Close()
 	//数据验证
 	//判断用户是否存在
-	var user model.User
-	db.Where("name = ?", name).First(&user)
-	if user.ID == 0 {
+	var newUser model.User
+	db.Where("name = ?", name).First(&newUser)
+	if newUser.ID == 0 {
 		response.Response(c, http.StatusUnprocessableEntity, common.USER_IS_NOT_EXIST, common.StatusText[common.USER_IS_NOT_EXIST])
 		return
 	}
 
 	//判断密码是否正确
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(newUser.Password), []byte(password)); err != nil {
 		response.Response(c, http.StatusUnprocessableEntity, common.PASSWORD_IS_NOT_CORRECT, common.StatusText[common.PASSWORD_IS_NOT_CORRECT])
 		return
 	}
 
 	//发放token
-	token, err := common.ReleaseToken(&user)
+	token, err := common.ReleaseToken(&newUser)
 	if err != nil {
 		response.Response(c, http.StatusInternalServerError, common.STATUS_INTERNAL_SERVER_ERROR, common.StatusText[common.STATUS_INTERNAL_SERVER_ERROR])
 		return
