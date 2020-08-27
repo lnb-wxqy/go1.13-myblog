@@ -9,6 +9,7 @@ import (
 	"myblog/model"
 	"myblog/response"
 	"net/http"
+	"strconv"
 )
 
 //文章分类结构体
@@ -58,29 +59,49 @@ func (c CategoryController) Update(ctx *gin.Context) {
 	}
 
 	// 获取path中的参数
+	categoryId, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
+	//判断分类是否存在
+	var updateCategory model.Category
+	if c.DB.First(&updateCategory, categoryId).RecordNotFound() {
+		response.FailedResponse(ctx, http.StatusOK, "1023", "分类不存在")
+		return
+	}
 
+	// 更新分类
+	requestCategory.ID = uint(categoryId)
+	db := c.DB.Model(&updateCategory).Update(&requestCategory)
+	if db != nil && db.Error != nil {
+		response.FailedResponse(ctx, http.StatusInternalServerError, "1025", "更新失败，"+db.Error.Error())
+		return
+	}
+
+	response.SuccessResponse(ctx, gin.H{"msg": "修改成功", "data": &updateCategory})
 }
 
 func (c CategoryController) Show(ctx *gin.Context) {
-	id :=ctx.Param("id")
-	if category, b := getCategory(c.DB, id); b {
-		response.SuccessResponse(ctx, gin.H{"code": "200", "data": category})
+	// 获取path中的参数
+	categoryId, _ := strconv.Atoi(ctx.Params.ByName("id"))
+
+	//判断分类是否存在
+	var category model.Category
+	if c.DB.First(&category, categoryId).RecordNotFound() {
+		response.FailedResponse(ctx, http.StatusOK, "1023", "分类不存在")
 		return
 	}
-	return
+
+	response.SuccessResponse(ctx, gin.H{"data": &category})
+
 }
 
 func (c CategoryController) Delete(ctx *gin.Context) {
-	panic("implement me")
-}
+	// 获取path中的参数
+	categoryId, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
-func getCategory(db *gorm.DB, id string) (*model.Category, bool) {
-	var category model.Category
-	db.Where("name = ?", name).First(&category)
-	if category.ID == 0 {
-		return nil, false
+	if err := c.DB.Delete(model.Category{}, categoryId).Error; err != nil {
+		response.FailedResponse(ctx, http.StatusOK, "1023", "删除失败")
+		return
 	}
 
-	return &category, true
+	response.SuccessResponse(ctx, gin.H{"msg": "删除成功"})
 }
