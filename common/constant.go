@@ -3,10 +3,18 @@ package common
 const (
 
 	//api
-	GROUP    = "/api/auth"
-	REGISTER = "/register"
-	LOGIN    = "/login"
-	INFO     = "/info"
+	// 用户相关
+	USER_GROUP = "/api/auth"
+	REGISTER   = "/register"
+	LOGIN      = "/login"
+	INFO       = "/info"
+
+	//文章相关
+	CATEGORY_GROUP = "/categories"
+	CREATE         = "/create"
+	UPDATE         = "/update"
+	SHOW           = "/show"
+	DELETE         = "/delete"
 
 	//business status code
 	USER_IS_NOT_EXIST            = "1001"
