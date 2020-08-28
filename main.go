@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/json-iterator/go/extra"
 	"github.com/spf13/viper"
 	"log"
 	"myblog/router"
@@ -9,6 +10,9 @@ import (
 )
 
 func main() {
+
+	// josn模糊匹配
+	extra.RegisterFuzzyDecoders()
 
 	//初始化配置
 	InitConfig()

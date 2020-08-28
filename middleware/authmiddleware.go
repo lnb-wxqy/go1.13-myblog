@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"myblog/common"
 	"myblog/database"
@@ -28,11 +27,7 @@ func AuthMiddleWare() gin.HandlerFunc {
 		//解析token
 		token, claims, err := common.ParseToken(tokenString)
 		if err != nil || !token.Valid {
-			if validationError, ok := err.(*jwt.ValidationError); ok {
-				response.Response(ctx, http.StatusUnauthorized, common.TOKEN_IS_INVALID, validationError)
-			} else {
-				response.Response(ctx, http.StatusInternalServerError, common.STATUS_INTERNAL_SERVER_ERROR, common.StatusText[common.STATUS_INTERNAL_SERVER_ERROR])
-			}
+			response.Response(ctx, http.StatusUnauthorized, common.TOKEN_IS_INVALID, common.StatusText[common.TOKEN_IS_INVALID])
 			ctx.Abort() //丢弃该请求
 			return
 		}
