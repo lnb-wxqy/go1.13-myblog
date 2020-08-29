@@ -10,3 +10,11 @@ datasource:
   charset: utf8
   #loc: Asia/Shanghai
   loc: loc=Local
+# 跨域
+auth:
+  Access-Control-Allow-Origin: http://39.106.0.106:8084
+  #过期时间
+  Access-Control-Max-Age: 86400
+  Access-Control-Allow-Methods: PUT,POST,GET,DELETE,OPTIONS
+  Access-Control-Allow-Headers: Content-Type,Content-Length, Authorization, Accept,X-Requested-With
+  Access-Control-Allow-Credentials: true
