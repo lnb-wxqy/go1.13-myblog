@@ -6,7 +6,7 @@ datasource:
   port: 3306
   database: myblog
   userName: root
-  password: Umissi@213
+  password: Wxqy@213
   charset: utf8
   #loc: Asia/Shanghai
   loc: loc=Local
