@@ -2,21 +2,28 @@ package common
 
 const (
 
-	//api
+	// api
 	// 用户相关
 	USER_GROUP = "/api/auth"
 	REGISTER   = "/register"
 	LOGIN      = "/login"
 	INFO       = "/info"
 
-	//文章相关
+	// 文章分类相关
 	CATEGORY_GROUP = "/categories"
+	// 文章接口
+	ARTICLE_GROUP="/articles"
+	PAGELIST="/page/list"
+
+	// 公共接口
 	CREATE         = "/create"
 	UPDATE         = "/update"
 	SHOW           = "/show"
 	DELETE         = "/delete"
 
-	//business status code
+
+
+	// business status code
 	USER_IS_NOT_EXIST            = "1001"
 	USER_IS_EXIST                = "1002"
 	USERNAME_IS_NULL             = "1003"
